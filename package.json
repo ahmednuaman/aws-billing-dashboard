@@ -2,8 +2,9 @@
   "name": "aws-billing-dashboard",
   "version": "1.0.0",
   "description": "A simple AWS billing dashboard",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
+    "start": "browser-sync start -s -f 'index.html' --open local",
     "test": "standard --fix --verbose | snazzy"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/ahmednuaman/aws-billing-dashboard#readme",
   "devDependencies": {
+    "browser-sync": "^2.23.6",
     "snazzy": "^7.1.1",
     "standard": "^11.0.0"
   }
