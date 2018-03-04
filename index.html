@@ -5,7 +5,56 @@
   <title>Yo</title>
 </head>
 <body>
-
+  <div id="container"></div>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.205.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.js" integrity="sha256-9wM2SPsbZp8aQ0KHzSeg+KsAYGtc7GRTombqhhXvLSg=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js" integrity="sha256-YFhaeQSVBgAFNN5z4I9YRB2jCuqc2nvypz0Q2eQzcx8=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(() => {
+      $
+        .get('/config.json')
+        .then((config) => {
+          AWS.config.update(config.aws)
+
+          const cloudwatch = new AWS.CloudWatch()
+
+          const Namespace = 'AWS/Billing'
+
+          cloudwatch.listMetrics({
+            Namespace
+          }, (error, data) => {
+            const {
+              Metrics
+            } = data
+
+            if (error || !Metrics) {
+              alert(`There's been a cloudwatch problem, check the console.log`)
+              return console.log(error, data)
+            }
+
+            const Dimensions =
+              _.uniqWith(
+                Metrics.reduce((result, { Dimensions }) => result.concat(Dimensions), []),
+                _.isEqual
+              )
+            console.log(Dimensions)
+            cloudwatch.getMetricStatistics({
+              Namespace,
+              Dimensions: [{
+                Name: 'Currency',
+                Value: 'USD'
+              }],
+              MetricName: 'EstimatedCharges',
+              StartTime: moment().subtract(2, 'weeks').toISOString(),
+              EndTime: moment().toISOString(),
+              Period: 900,
+              Statistics: ['Maximum'],
+              Unit: 'Count'
+            }, (error, data) => console.log(error, data))
+          })
+        }, () => alert(`Can't load the config.json`))
+    })
+  </script>
 </body>
 </html>
