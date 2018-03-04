@@ -1,0 +1,28 @@
+{
+  "name": "aws-billing-dashboard",
+  "version": "1.0.0",
+  "description": "A simple AWS billing dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard --fix --verbose | snazzy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmednuaman/aws-billing-dashboard.git"
+  },
+  "keywords": [
+    "aws",
+    "billing",
+    "dashboard"
+  ],
+  "author": "Ahmed Nuaman (ahmed@ahmednuaman.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahmednuaman/aws-billing-dashboard/issues"
+  },
+  "homepage": "https://github.com/ahmednuaman/aws-billing-dashboard#readme",
+  "devDependencies": {
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.0"
+  }
+}
